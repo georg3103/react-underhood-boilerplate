@@ -15,6 +15,8 @@ class Component {
   }
 }
 
+Component.isClass = true;
+
 function createPublicInstance(element, internalInstance) {
   const { type: Type, props } = element;
   const publicInstance = new Type(props);
@@ -157,19 +159,27 @@ function updateDomProperties(dom, prevProps, nextProps) {
 }
 
 function createElement(type, attrs, ...children) {
+  const props = {
+    ...attrs,
+    children: children.flat().map(child => {
+      return typeof child === "object"
+        ? child
+        : {
+            type: "TEXT ELEMENT",
+            props: { nodeValue: child }
+          };
+    }),
+  }
+  // functional components
+  if (typeof type === "function") {
+    if (!type.isClass) {
+      return new type(props);
+    }
+  }
+
   return {
     type,
-    props: {
-      ...attrs,
-      children: children.flat().map(child => {
-        return typeof child === "object"
-          ? child
-          : {
-              type: "TEXT ELEMENT",
-              props: { nodeValue: child }
-            };
-      })
-    }
+    props
   };
 }
 
