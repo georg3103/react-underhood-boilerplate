@@ -15,7 +15,20 @@ module.exports = {
       {
         test: /\.(jsx?)$/,
         exclude: /(node_modules)/,
-        loader: "babel-loader"
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+              plugins: [
+                [
+                  "@babel/transform-react-jsx",
+                  { pragma: "OwnReact.createElement" }
+                ]
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,

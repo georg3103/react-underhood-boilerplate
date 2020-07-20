@@ -1,8 +1,9 @@
 module.exports = {
-  presets: [
-    "@babel/preset-env",
+  presets: ["@babel/preset-env"],
+  plugins: [
+    "@babel/plugin-proposal-class-properties",
     [
-      "@babel/preset-react",
+      "@babel/transform-react-jsx",
       {
         pragma: "OwnReact.createElement"
       }
