@@ -23,12 +23,12 @@ export default function instantiate(element) {
   const instance = {};
   const publicInstance = createPublicInstance(element, instance);
   const childElement = publicInstance.render();
+  const childInstance = instantiate(childElement);
+  const { dom } = childInstance;
   // didMount hook
   if (publicInstance.didMount) {
     publicInstance.didMount();
   }
-  const childInstance = instantiate(childElement);
-  const { dom } = childInstance;
   Object.assign(instance, { dom, element, childInstance, publicInstance });
   return instance;
 }
