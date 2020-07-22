@@ -1,18 +1,16 @@
-const { perfomance } = window;
-
 const profiler = {
   statistics: { time: {}, wrongRendersCount: 0 },
 
   startTracking(name) {
-    perfomance.mark(`${name} start`);
+    window.performance.mark(`${name} start`);
   },
 
-  stopStacking(name) {
-    performance.mark(`${name} end`);
+  stopTracking(name) {
+    window.performance.mark(`${name} end`);
   },
 
   measure(name) {
-    const { duration } = perfomance.measure(
+    const { duration } = window.performance.measure(
       `${name} measure`,
       `${name} start`,
       `${name} end`
@@ -43,3 +41,5 @@ const profiler = {
 
 window.performance_profiler =
   process.env.NODE_ENV === "production" ? {} : profiler;
+
+export default profiler;
