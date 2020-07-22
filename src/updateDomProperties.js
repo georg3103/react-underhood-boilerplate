@@ -5,7 +5,7 @@ export default function updateDomProperties(dom, prevProps, nextProps) {
   const isAttribute = name => !isEvent(name) && name !== "children";
 
   if (window.performance_profiler) {
-    if (!shallowEqual(prevProps, nextProps)) {
+    if (shallowEqual(prevProps, nextProps)) {
       window.performance_profiler.incrementWrongRender();
     }
   }

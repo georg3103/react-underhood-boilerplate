@@ -8,8 +8,8 @@ export default function createElement(type, attrs, ...children) {
             type: "TEXT ELEMENT",
             props: { nodeValue: child }
           };
-    }),
-  }
+    })
+  };
   // functional components
   if (typeof type === "function") {
     if (!type.isClass) {

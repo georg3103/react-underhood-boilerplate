@@ -34,7 +34,7 @@ export default function reconcile(parentDom, instance, element) {
 function reconcileChildren(instance, element) {
   const { dom } = instance;
   const { childInstances } = instance;
-  const nextChildElements = element.props.children;
+  const nextChildElements = element.props.children || [];
   const newChildInstances = [];
   const count = Math.max(childInstances.length, nextChildElements.length);
   for (let i = 0; i < count; i += 1) {

@@ -1,32 +1,20 @@
 import OwnReact from "../src";
 import ListItem from "./ListItem";
+import Form from "./Form";
 import { shuffle, getRussianAlphabethLetters } from "../src/utils";
 
 class List extends OwnReact.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
       items: getRussianAlphabethLetters()
     };
   }
 
-  handleInput = e => {
-    e.preventDefault();
-    const {
-      target: { value }
-    } = e;
-    this.setState({
-      value
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { value, items } = this.state;
+  handleSubmit = value => {
+    const { items } = this.state;
     const newLetter = value.split("");
     this.setState({
-      value: "",
       items: [...newLetter, ...items]
     });
   };
@@ -35,20 +23,17 @@ class List extends OwnReact.Component {
     e.preventDefault();
     const { items } = this.state;
     this.setState({
-      value: "",
       items: shuffle(items)
     });
   };
 
   render() {
-    const { items, value } = this.state;
+    console.log("render 1");
+    const { items } = this.state;
     const listItems = items.map(item => <ListItem letter={item} />);
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={value} onInput={this.handleInput} />
-          <button type="submit">Add</button>
-        </form>
+        <Form handleSubmit={this.handleSubmit} />
         <ul>{listItems}</ul>
         <button type="button" onClick={this.shuffleLetters}>
           shuffle
