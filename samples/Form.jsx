@@ -26,7 +26,6 @@ class Form extends OwnReact.Component {
   };
 
   render() {
-    console.log("render 2");
     const { value } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>

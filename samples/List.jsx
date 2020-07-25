@@ -3,6 +3,20 @@ import ListItem from "./ListItem";
 import Form from "./Form";
 import { shuffle, getRussianAlphabethLetters } from "../src/utils";
 
+const mixLetters = (letters, newLetters) => {
+  const newLettersIndexes = newLetters
+    .reduce((acc, item) => [...acc, letters.indexOf(item)], [])
+    .sort((a, b) => a - b);
+
+  return newLetters.reduce((acc, item, index) => {
+    const newLetterIndex = newLettersIndexes[index];
+    if (newLetterIndex !== -1) {
+      acc[newLetterIndex] = item;
+    }
+    return acc;
+  }, letters.slice());
+};
+
 class List extends OwnReact.Component {
   constructor(props) {
     super(props);
@@ -15,7 +29,7 @@ class List extends OwnReact.Component {
     const { items } = this.state;
     const newLetter = value.split("");
     this.setState({
-      items: [...newLetter, ...items]
+      items: mixLetters(items, newLetter)
     });
   };
 
@@ -28,7 +42,6 @@ class List extends OwnReact.Component {
   };
 
   render() {
-    console.log("render 1");
     const { items } = this.state;
     const listItems = items.map(item => <ListItem letter={item} />);
     return (
