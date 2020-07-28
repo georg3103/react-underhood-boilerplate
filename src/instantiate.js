@@ -9,7 +9,6 @@ export default function instantiate(element) {
     const dom = isTextElement
       ? document.createTextNode("")
       : document.createElement(type);
-
     updateDomProperties(dom, [], props);
 
     const childElements = props.children || [];

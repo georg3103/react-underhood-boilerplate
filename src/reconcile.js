@@ -1,5 +1,6 @@
 import instantiate from "./instantiate";
 import updateDomProperties from "./updateDomProperties";
+import profiler from "./profiler";
 
 export default function reconcile(parentDom, instance, element) {
   if (instance == null) {
@@ -15,12 +16,16 @@ export default function reconcile(parentDom, instance, element) {
   }
   if (typeof element.type === "string") {
     // Update instance of a DOM-element
+    profiler.startTracking("update Dom Properties");
     updateDomProperties(instance.dom, instance.element.props, element.props);
+    profiler.stopTracking("update Dom Properties");
+    profiler.measure("update Dom Properties");
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
     return instance;
   }
   // Update component instance
+  profiler.startTracking("Update component instance");
   instance.publicInstance.props = element.props;
   const childElement = instance.publicInstance.render();
   const oldChildInstance = instance.childInstance;
@@ -28,6 +33,8 @@ export default function reconcile(parentDom, instance, element) {
   instance.dom = childInstance.dom;
   instance.childInstance = childInstance;
   instance.element = element;
+  profiler.stopTracking("Update component instance");
+  profiler.measure("Update component instance");
   return instance;
 }
 
