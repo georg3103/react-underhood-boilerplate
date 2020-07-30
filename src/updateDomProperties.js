@@ -1,13 +1,12 @@
-import shallowEqual from "shallowequal";
+import { isEqual } from "./utils";
+import profiler from "./profiler";
 
 export default function updateDomProperties(dom, prevProps, nextProps) {
   const isEvent = name => name.startsWith("on");
   const isAttribute = name => !isEvent(name) && name !== "children";
 
-  if (window.performance_profiler) {
-    if (shallowEqual(prevProps, nextProps)) {
-      window.performance_profiler.incrementWrongRender();
-    }
+  if (isEqual(prevProps, nextProps)) {
+    profiler.incrementWrongRender();
   }
 
   // Delete listeners
