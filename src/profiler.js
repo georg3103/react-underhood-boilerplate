@@ -16,7 +16,7 @@ const profiler = {
       `${name} end`
     );
 
-    this.statistics[name] = this.statistics.time[name]
+    this.statistics.time[name] = this.statistics.time[name]
       ? this.statistics.time[name] + duration
       : duration;
 
