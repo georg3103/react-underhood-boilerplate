@@ -10,6 +10,10 @@ class Component {
     this.state = { ...this.state, ...partialState };
     updateInstance(this.__internalInstance);
   }
+
+  shouldComponentUpdate() {
+    return true;
+  }
 }
 
 Component.isClass = true;

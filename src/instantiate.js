@@ -1,5 +1,12 @@
 import updateDomProperties from "./updateDomProperties";
 
+function createPublicInstance(element, internalInstance) {
+  const { type: Type, props } = element;
+  const publicInstance = new Type(props);
+  publicInstance.__internalInstance = internalInstance;
+  return publicInstance;
+}
+
 export default function instantiate(element) {
   const { type, props } = element;
   const isDomElement = typeof type === "string";
@@ -30,11 +37,4 @@ export default function instantiate(element) {
   }
   Object.assign(instance, { dom, element, childInstance, publicInstance });
   return instance;
-}
-
-function createPublicInstance(element, internalInstance) {
-  const { type: Type, props } = element;
-  const publicInstance = new Type(props);
-  publicInstance.__internalInstance = internalInstance;
-  return publicInstance;
 }

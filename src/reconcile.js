@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import instantiate from "./instantiate";
 import updateDomProperties from "./updateDomProperties";
 import profiler from "./profiler";
@@ -25,22 +26,23 @@ export default function reconcile(parentDom, instance, element) {
     return instance;
   }
   // Update component instance
-  profiler.startTracking("Update component instance");
-  instance.publicInstance.props = element.props;
-  const childElement = instance.publicInstance.render();
-  const oldChildInstance = instance.childInstance;
-  const childInstance = reconcile(parentDom, oldChildInstance, childElement);
-  instance.dom = childInstance.dom;
-  instance.childInstance = childInstance;
-  instance.element = element;
-  profiler.stopTracking("Update component instance");
-  profiler.measure("Update component instance");
+  if (instance.publicInstance.shouldComponentUpdate(element.props)) {
+    profiler.startTracking("Update component instance");
+    instance.publicInstance.props = element.props;
+    const oldChildInstance = instance.childInstance;
+    const childElement = instance.publicInstance.render();
+    const childInstance = reconcile(parentDom, oldChildInstance, childElement);
+    instance.dom = childInstance.dom;
+    instance.childInstance = childInstance;
+    instance.element = element;
+    profiler.stopTracking("Update component instance");
+    profiler.measure("Update component instance");
+  }
   return instance;
 }
 
 function reconcileChildren(instance, element) {
-  const { dom } = instance;
-  const { childInstances } = instance;
+  const { dom, childInstances } = instance;
   const nextChildElements = element.props.children || [];
   const newChildInstances = [];
   const count = Math.max(childInstances.length, nextChildElements.length);

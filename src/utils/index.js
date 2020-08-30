@@ -27,12 +27,9 @@ export function isEqual(obj1, obj2) {
     if (!obj2Keys.includes(key)) return false;
 
     if (typeof obj1[key] === "function" && typeof obj2[key] === "function") {
-      console.log(obj1[key].toString());
-      console.log(obj2[key].toString());
       if (obj1[key].toString() !== obj2[key].toString()) return false;
       return isEqual(obj1[key], obj2[key]);
     }
-    console.log(obj1, key);
     if (!isEqual(obj1[key], obj2[key])) return false;
   }
 

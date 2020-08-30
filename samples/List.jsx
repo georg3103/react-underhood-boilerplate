@@ -43,6 +43,7 @@ class List extends OwnReact.Component {
 
   render() {
     const { items } = this.state;
+    console.error("items", items);
     const listItems = items.map(item => <ListItem letter={item} />);
     return (
       <div>
